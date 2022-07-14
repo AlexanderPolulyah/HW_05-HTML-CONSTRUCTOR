@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //Задание на синий пояс.
+        var someTree = {
+            tagName: "table", //html tag
+            subTags: [ //вложенные тэги
+                {
+                            tagName: "tr",
+                            subTags: [
+                                {
+                                    tagName: "td",
+                                    text: "some text",
+                                },
+                                {
+                                    tagName: "td",
+                                    text: "some text 2",
+                                }
+                            ]
+                }
+            ],
+            attrs: 
+            {
+                border: 1,
+            },
+        };
+
+        //возвращает HTML для obj
+        getHtmlForObject = function(obj){
+            return 'tagName' in obj 
+                ? getHtmlForTag(obj.tagName, obj.text, obj.attrs, obj.subTags)
+                : '';
+        }
+
+        //возвращает HTML для тэга
+        getHtmlForTag = function(tagName, text, attrs, subTags){
+            let s = '';
+            if(tagName !== undefined){
+                s += '<' + tagName;
+                if(attrs !== undefined){
+                    for(let key in attrs){
+                        s += ` ${key}=${attrs[key]}`;
+                    }
+                }
+                s += '>';
+
+                if(text !== undefined){
+                    s += text;
+                }
+
+                if(subTags !== undefined){
+                    for(let i in subTags){
+                        s += getHtmlForObject(subTags[i]);
+                    }
+
+                }
+                s += '</' + tagName + '>';
+            }
+            return s;
+        }
+
+        document.write(getHtmlForObject(someTree));
+    </script>
+</body>
+</html>
